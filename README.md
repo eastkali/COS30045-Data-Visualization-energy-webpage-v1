@@ -48,6 +48,7 @@ git clone https://github.com/yourusername/energy-webpage.git
 
 Your project must follow the structure below.
 
+```bash
 energy-webpage-v1
 │
 ├── css
