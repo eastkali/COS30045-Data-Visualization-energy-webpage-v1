@@ -2,6 +2,7 @@ const pages = {
     home: `
         <h1>Appliance Energy Consumption</h1>
         <p>Australian households consume electricity from many appliances, including refrigerators, washing machines, TVs, and lighting. Understanding energy usage helps reduce costs and environmental impact.</p>
+        
         <div class="info-card">
             <h3>Quick Facts</h3>
             <ul>
@@ -9,6 +10,16 @@ const pages = {
                 <li>Energy efficiency labels guide appliance selection</li>
                 <li>Reducing standby power saves energy</li>
             </ul>
+        </div>
+
+        <div class="story-teaser" style="background: #fdf2e9; border: 1px solid #ff6600; padding: 25px; border-radius: 12px; margin-top: 30px;">
+            <h2 style="color: #ff6600; margin-top: 0; border: none;">Explore the Data Story</h2>
+            <p>Are those extra screen inches costing you more than you think? We’ve analyzed the "DNA of Energy Drain" to find out which technologies are champions of efficiency and which are legacy offenders.</p>
+            <ul style="margin-bottom: 20px;">
+                <li><strong>The Tech Gap:</strong> Discover the 312% power difference between display types.</li>
+                <li><strong>Size vs. Reality:</strong> See how a 75-inch screen can sometimes beat a 55-inch in efficiency.</li>
+            </ul>
+            <a href="#" onclick="setPage('story')" style="display: inline-block; background: #ff6600; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;">Start the Interactive Story →</a>
         </div>
     `,
     tv: `
