@@ -102,3 +102,19 @@ The website includes:
 - Context that connects the data to real-world implications
 
 The aim is to guide the viewer through the data in a way that is **informative, engaging, and easy to understand**.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+## AI Declaration
+Tool(s) Used: Claude AI
+Application: Logical Structure and CSS Architecture
+
+Technical Contributions
+* State Management Logic: AI was used in designing setPage and changeStoryStep methods. Although the contents of the story and information points such as the power difference of 312 percent and average LCD consumption of 87.03W were provided by me, AI contributed in creating the SPA logic that can make pages visible and hidden without refreshments.
+
+* Responsive UI Framework: The AI created the CSS Grid and Flexbox boilerplate code for the 'tv-grid' and 'visualization-container' classes. This would make sure that the layout retains its structure for different viewport sizes.
+
+* Data Object Mapping: AI was used to style the page and the storyContent constant objects to ensure that any HTML string is properly mapped onto the JavaScript key.
+
+## Refelection
+All code that was created by the software has been checked by me manually against the accessibility guidelines. I found AI helpful in giving direct answers along with explanations on how to do it. In addition, the CSS code for the AI that generates hover effects was modified, as well as the showUserType conditional statement.
