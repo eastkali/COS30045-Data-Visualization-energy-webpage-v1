@@ -116,5 +116,13 @@ Technical Contributions
 
 * Data Object Mapping: AI was used to style the page and the storyContent constant objects to ensure that any HTML string is properly mapped onto the JavaScript key.
 
+* D3.js Integration and Interaction Logic: AI was used in setting up D3.js and incorporating it in the development of the scatter plot visualization. It also played an important role in designing the interactions, like making sure that the “Reveal Data” button disappears once clicked.
+
 ## Refelection
-All code that was created by the software has been checked by me manually against the accessibility guidelines. I found AI helpful in giving direct answers along with explanations on how to do it. In addition, the CSS code for the AI that generates hover effects was modified, as well as the showUserType conditional statement.
+All code that was created by the software has been checked and tested by me manually against the guidelines. I found AI helpful in giving direct answers along with explanations on how to do it which improved my understanding. 
+
+AI guided me on how to appropriately integrate the D3.js library in my HTML file and use it in my js file for drawing my scatter plot visualizations. AI was also helpful to me in designing interaction functionality, including disabling the "Reveal Data" button once it has been clicked.
+
+In addition, there were some cases where some of the automatically generated code had to be edited to meet the requirement i want. For example, I customized the CSS hover effect and edited conditional codes, such as the showUserType function.
+
+Overall, I used AI not only to learn but also to develop my project. However, all decisions, changes, and validation were done by me.
