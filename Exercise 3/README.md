@@ -119,7 +119,7 @@ Technical Contributions
 * D3.js Integration and Interaction Logic: AI was used in setting up D3.js and incorporating it in the development of the scatter plot visualization. It also played an important role in designing the interactions, like making sure that the “Reveal Data” button disappears once clicked.
 
 ## Refelection
-All code that was given by AI has been checked and tested by me manually against the guidelines. I found AI helpful in giving direct answers along with explanations on how to do it which improved my understanding. 
+All code that was given by AI has been checked and tested by me manually against the guidelines. I found AI helpful in giving direct answers along with explanations on how to do it which improved my understanding.
 
 AI guided me on how to appropriately integrate the D3.js library in my HTML file and use it in my js file for drawing my scatter plot visualizations. AI was also helpful to me in designing interaction functionality, including disabling the "Reveal Data" button once it has been clicked.
 
