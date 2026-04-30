@@ -124,27 +124,30 @@ const pages = {
 
         <hr>
 
-       <div class="story-header">
+    <div class="story-header">
             <h1>Size vs. Reality</h1>
         </div>
 
         <section class="story-section">
-            <p><strong>The Demonstration:</strong> Explore how screen size impacts power. Click the "Reveal" button to see the trend grow, or click individual dots to see their story.</p>
-            
+            <p><strong>The Demonstration:</strong> As we chase the "Home Cinema" experience, how much extra energy are we really using? We have mapped our dataset below. 
+            <strong>Click "Step 1" to reveal the relationship between panel size and energy draw.</strong></p>
+
             <div class="visualisation-container">
                 <div id="scatter-plot-container"></div>
+                
                 <div id="plot-controls" style="margin-top: 15px;">
-                    <button onclick="revealPlot()" class="story-btn">Step 1: Reveal Data</button>
-                    <button onclick="toggleTrend()" class="story-btn" id="trendBtn" style="display:none;">Step 2: Show Trend Line</button>
+                    <button id="revealBtn" onclick="revealPlot()" class="story-btn">Step 1: Reveal Data</button>
+                    <button id="trendBtn" onclick="toggleTrend()" class="story-btn" style="display:none;">Step 2: Show Trend Line</button>
                 </div>
+
                 <div id="point-story" style="min-height: 50px; margin-top: 15px; font-weight: bold; color: #ff6600;">
-                    Click a dot to see its energy story.
+                    Ready to analyze the data? Click Step 1.
                 </div>
             </div>
 
             <div class="pro-tip">
                 <h3>The Recommendation</h3>
-                <p>The <strong>"Efficiency Spread"</strong> shows that while the trend goes up, individual choices matter. A high-efficiency 75" can beat a poorly rated 55".</p>
+                <p>There is no escaping physics: bigger screens generally require more power. However, the <strong>"Efficiency Spread"</strong> in the plot above reveals a critical choice for consumers: choosing a high-efficiency 75-inch model can actually use less power than an inefficient 55-inch model. <strong>Always prioritize the Star Rating over size alone.</strong></p>
             </div>
         </section>
     `,
@@ -274,17 +277,27 @@ window.initScatterPlot = function() {
         .attr("d", line);
 
     window.revealPlot = () => {
-        dots.transition()
-            .delay((d, i) => i * 400)
-            .duration(800)
-            .attr("r", d => 5 + (d.size / 10)); // Bigger TV = bigger dot
-        document.getElementById("trendBtn").style.display = "inline-block";
-    };
+    // animate the dots
+    d3.selectAll("circle")
+        .transition()
+        .delay((d, i) => i * 150) 
+        .duration(800)
+        .attr("r", d => 5 + (d.size / 10));
+
+    document.getElementById("revealBtn").style.display = "none";
+    document.getElementById("trendBtn").style.display = "inline-block";
+    document.getElementById("point-story").innerText = "Data revealed! Click the trend line or explore individual dots.";
+};
 
     window.toggleTrend = () => {
-        const isHidden = d3.select("#trend-line").attr("stroke-dashoffset") == 1000;
-        d3.select("#trend-line").transition().duration(1000).attr("stroke-dashoffset", isHidden ? 0 : 1000);
-        document.getElementById("trendBtn").innerText = isHidden ? "Hide Trend Line" : "Show Trend Line";
+    const trendPath = d3.select("#trend-line");
+    const isHidden = trendPath.attr("stroke-dashoffset") == 1000;
+    
+    trendPath.transition()
+        .duration(1000)
+        .attr("stroke-dashoffset", isHidden ? 0 : 1000);
+
+    document.getElementById("trendBtn").innerText = isHidden ? "Hide Trend Line" : "Step 2: Show Trend Line";
     };
 };
 
