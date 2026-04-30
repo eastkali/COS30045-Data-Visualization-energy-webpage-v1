@@ -19,7 +19,7 @@ const pages = {
                 <li><strong>The Tech Gap:</strong> Discover the 312% power difference between display types.</li>
                 <li><strong>Size vs. Reality:</strong> See how a 75-inch screen can sometimes beat a 55-inch in efficiency.</li>
             </ul>
-            <a href="#" onclick="setPage('story')" style="display: inline-block; background: #ff6600; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;">Start the Interactive Story →</a>
+            <a href="#" onclick="setPage('story')" style="display: inline-block; background: #ff6600; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;">View Storyboard →</a>
         </div>
     `,
     tv: `
@@ -124,21 +124,27 @@ const pages = {
 
         <hr>
 
-        <div class="story-header">
+       <div class="story-header">
             <h1>Size vs. Reality</h1>
         </div>
 
         <section class="story-section">
-            <p><strong>The Demonstration:</strong> As we chase the "Home Cinema" experience, how much extra energy are we really using? We mapped screen size against power use to see the cost of those extra inches.</p>
-
+            <p><strong>The Demonstration:</strong> Explore how screen size impacts power. Click the "Reveal" button to see the trend grow, or click individual dots to see their story.</p>
+            
             <div class="visualisation-container">
-                <img src="images/ScatterPlot.png" alt="Screen Size vs Power Usage">
-                <p class="caption">Figure 2: Scatter plot highlighting the positive correlation between panel size and energy draw.</p>
+                <div id="scatter-plot-container"></div>
+                <div id="plot-controls" style="margin-top: 15px;">
+                    <button onclick="revealPlot()" class="story-btn">Step 1: Reveal Data</button>
+                    <button onclick="toggleTrend()" class="story-btn" id="trendBtn" style="display:none;">Step 2: Show Trend Line</button>
+                </div>
+                <div id="point-story" style="min-height: 50px; margin-top: 15px; font-weight: bold; color: #ff6600;">
+                    Click a dot to see its energy story.
+                </div>
             </div>
 
             <div class="pro-tip">
                 <h3>The Recommendation</h3>
-                <p>There is no escaping physics: bigger screens require more power. However, the <strong>"Efficiency Spread"</strong> in our scatter plot shows that if you must go big, choosing a 6-star rated 75-inch model can actually use less power than a 3-star 55-inch model!</p>
+                <p>The <strong>"Efficiency Spread"</strong> shows that while the trend goes up, individual choices matter. A high-efficiency 75" can beat a poorly rated 55".</p>
             </div>
         </section>
     `,
@@ -206,3 +212,87 @@ links.forEach(link => {
         setPage(link.dataset.page);
     });
 });
+
+// data extracted from my scatter plot analysis
+const tvData = [
+    { size: 24, power: 25, note: "Compact & Efficient: Perfect for kitchens." },
+    { size: 32, power: 45, note: "The bedroom standard: Low impact." },
+    { size: 43, power: 85, note: "The sweet spot for efficiency." },
+    { size: 55, power: 120, note: "The modern living room baseline." },
+    { size: 55, power: 210, note: "Warning: This 55-inch model uses more than some 75-inch screens!" },
+    { size: 65, power: 180, note: "Going big: Power draw begins to climb rapidly." },
+    { size: 75, power: 240, note: "Home Cinema: Significant energy draw." },
+    { size: 85, power: 380, note: "The Extreme: Consumes as much as a small fridge." }
+    // D3 will animate these in sequence
+];
+
+window.initScatterPlot = function() {
+    const margin = {top: 20, right: 20, bottom: 50, left: 60},
+          width = 800 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
+
+    const svg = d3.select("#scatter-plot-container")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("viewBox", `0 0 800 400`)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // scales
+    const x = d3.scaleLinear().domain([0, 100]).range([0, width]);
+    const y = d3.scaleLinear().domain([0, 500]).range([height, 0]);
+    const color = d3.scaleLinear().domain([50, 250, 400]).range(["#2e7d32", "#ffcc00", "#c62828"]);
+
+    // axes
+    svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
+    svg.append("g").call(d3.axisLeft(y));
+
+    // points so its Hidden initially
+    const dots = svg.selectAll("dot")
+        .data(tvData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => x(d.size))
+        .attr("cy", d => y(d.power))
+        .attr("r", 0) // Start size 0 for animation
+        .attr("fill", d => color(d.power))
+        .style("cursor", "pointer")
+        .on("click", (event, d) => {
+            d3.select("#point-story").html(`${d.size}" TV @ ${d.power}W: ${d.note}`);
+        });
+
+    // trend line also hidden
+    const line = d3.line().x(d => x(d.size)).y(d => y(d.power)).curve(d3.curveBasis);
+    svg.append("path")
+        .datum(tvData)
+        .attr("id", "trend-line")
+        .attr("fill", "none")
+        .attr("stroke", "#ff6600")
+        .attr("stroke-width", 3)
+        .attr("stroke-dasharray", "1000 1000")
+        .attr("stroke-dashoffset", 1000)
+        .attr("d", line);
+
+    window.revealPlot = () => {
+        dots.transition()
+            .delay((d, i) => i * 400)
+            .duration(800)
+            .attr("r", d => 5 + (d.size / 10)); // Bigger TV = bigger dot
+        document.getElementById("trendBtn").style.display = "inline-block";
+    };
+
+    window.toggleTrend = () => {
+        const isHidden = d3.select("#trend-line").attr("stroke-dashoffset") == 1000;
+        d3.select("#trend-line").transition().duration(1000).attr("stroke-dashoffset", isHidden ? 0 : 1000);
+        document.getElementById("trendBtn").innerText = isHidden ? "Hide Trend Line" : "Show Trend Line";
+    };
+};
+
+// make sure that D3 runs when page is switched to story
+const originalSetPage = setPage;
+setPage = function(page) {
+    originalSetPage(page);
+    if (page === 'story') {
+        setTimeout(initScatterPlot, 100);
+    }
+};
