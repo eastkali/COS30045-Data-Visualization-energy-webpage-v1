@@ -14,9 +14,9 @@ const pages = {
 
         <div class="story-teaser" style="background: #fdf2e9; border: 1px solid #ff6600; padding: 25px; border-radius: 12px; margin-top: 30px;">
             <h2 style="color: #ff6600; margin-top: 0; border: none;">Explore the Data Story</h2>
-            <p>Are those extra screen inches costing you more than you think? We’ve analyzed the "DNA of Energy Drain" to find out which technologies are champions of efficiency and which are legacy offenders.</p>
+            <p>Are those extra screen inches costing you more than you think? We’ve analyzed the "DNA of Energy Drain" to find out which technologies are champions of efficiency and how size impacts your bill.</p>
             <ul style="margin-bottom: 20px;">
-                <li><strong>The Tech Gap:</strong> Discover the 312% power difference between display types.</li>
+                <li><strong>The Tech Gap:</strong> Discover the power difference between modern display types.</li>
                 <li><strong>Size vs. Reality:</strong> See how a 75-inch screen can sometimes beat a 55-inch in efficiency.</li>
             </ul>
             <a href="#" onclick="setPage('story')" style="display: inline-block; background: #ff6600; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; transition: background 0.3s;">View Storyboard →</a>
@@ -42,15 +42,6 @@ const pages = {
                 <div class="stars">
                     <span>EFFICIENCY:</span>
                     ★★★★☆
-                </div>
-            </div>
-            <div class="tv-card legacy">
-                <h3 style="color: #ff6600;">Plasma (Legacy)</h3>
-                <p class="wattage">150 - 400 Watts</p>
-                <p>Older technology with very high consumption. Consider upgrading to save energy.</p>
-                <div class="stars">
-                    <span>EFFICIENCY:</span>
-                    ★★☆☆☆
                 </div>
             </div>
         </div>
@@ -87,13 +78,12 @@ const pages = {
                 <option value="led">LED</option>
                 <option value="lcd">LCD (Standard)</option>
                 <option value="oled">OLED/QLED</option>
-                <option value="plasma">Plasma</option>
             </select>
             <p id="resultText" style="margin-top:20px; font-weight: bold; color: #ff6600; min-height: 1.5em;"></p>
         </section>
 
         <section class="story-section">
-            <h2>The Winner and the Worst Offender</h2>
+            <h2>The Efficiency Leaderboard</h2>
             <table class="energy-table">
                 <thead>
                     <tr>
@@ -108,15 +98,10 @@ const pages = {
                         <td><strong>LED / LCD</strong></td>
                         <td>Lowest Energy Consumption</td>
                     </tr>
-                    <tr>
-                        <td>Average</td>
-                        <td>OLED / QLED</td>
-                        <td>Moderate Energy Use</td>
-                    </tr>
                     <tr class="loser-row">
-                        <td>⚠️ Offender</td>
-                        <td><strong>Plasma (Legacy)</strong></td>
-                        <td>Highest Energy Drain</td>
+                        <td>⚠️ Higher Draw</td>
+                        <td><strong>OLED / QLED</strong></td>
+                        <td>Increased power for premium display</td>
                     </tr>
                 </tbody>
             </table>
@@ -169,9 +154,9 @@ const storyContent = [ // story content (image + text per step)
     },
     {
         image: "images/DataAnalysis.png",
-        caption: "Step 2: Planning the Pilot Program Success.",
-        title: "The Pilot Strategy",
-        text: "Our analysis identified a 312% power gap between legacy Plasma and modern LCDs. The Pilot Strategy takes this 'static' data and puts it into motion by testing real-time feedback loops."
+        caption: "Step 2: Planning for Efficiency Success.",
+        title: "The Strategy",
+        text: "Our analysis identified significant power gaps between different modern technologies. The strategy puts this data into motion by focusing on energy star ratings."
     }
 ];
 
@@ -190,7 +175,6 @@ window.showUserType = function(type) {
     if (type === "led") text.innerHTML = "⭐⭐⭐⭐⭐ Excellent efficiency! LED backlighting efficiency is currently unbeatable.";
     else if (type === "lcd") text.innerHTML = "⭐⭐⭐⭐⭐ Good efficiency. Consumes the least power at approximately 87.03W.";
     else if (type === "oled") text.innerHTML = "⭐⭐⭐⭐ Moderate use. Offers stunning blacks but uses significantly more power at 128.7W.";
-    else if (type === "plasma") text.innerHTML = "⭐⭐ Highest consumption. This technology wastes more energy as heat than LEDs.";
     else text.innerHTML = "";
 };
 
@@ -257,7 +241,7 @@ window.initScatterPlot = function() {
         .append("circle")
         .attr("cx", d => x(d.size))
         .attr("cy", d => y(d.power))
-        .attr("r", 0) // Start size 0 for animation
+        .attr("r", 0) 
         .attr("fill", d => color(d.power))
         .style("cursor", "pointer")
         .on("click", (event, d) => {
@@ -277,27 +261,27 @@ window.initScatterPlot = function() {
         .attr("d", line);
 
     window.revealPlot = () => {
-    // animate the dots
-    d3.selectAll("circle")
-        .transition()
-        .delay((d, i) => i * 150) 
-        .duration(800)
-        .attr("r", d => 5 + (d.size / 10));
+        // animate the dots
+        d3.selectAll("circle")
+            .transition()
+            .delay((d, i) => i * 150) 
+            .duration(800)
+            .attr("r", d => 5 + (d.size / 10));
 
-    document.getElementById("revealBtn").style.display = "none";
-    document.getElementById("trendBtn").style.display = "inline-block";
-    document.getElementById("point-story").innerText = "Data revealed! Click the trend line or explore individual dots.";
-};
+        document.getElementById("revealBtn").style.display = "none";
+        document.getElementById("trendBtn").style.display = "inline-block";
+        document.getElementById("point-story").innerText = "Data revealed! Click the trend line or explore individual dots.";
+    };
 
     window.toggleTrend = () => {
-    const trendPath = d3.select("#trend-line");
-    const isHidden = trendPath.attr("stroke-dashoffset") == 1000;
-    
-    trendPath.transition()
-        .duration(1000)
-        .attr("stroke-dashoffset", isHidden ? 0 : 1000);
+        const trendPath = d3.select("#trend-line");
+        const isHidden = trendPath.attr("stroke-dashoffset") == 1000;
+        
+        trendPath.transition()
+            .duration(1000)
+            .attr("stroke-dashoffset", isHidden ? 0 : 1000);
 
-    document.getElementById("trendBtn").innerText = isHidden ? "Hide Trend Line" : "Step 2: Show Trend Line";
+        document.getElementById("trendBtn").innerText = isHidden ? "Hide Trend Line" : "Step 2: Show Trend Line";
     };
 };
 
