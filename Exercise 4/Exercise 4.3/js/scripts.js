@@ -48,6 +48,9 @@ const pages = {
         <div class="pro-tip">
             <strong>Pro Tip:</strong> Look for the <em>Energy Rating Label</em>. Every extra star can save you around 20% in running costs!
         </div>
+
+        <h2>D3 Interactive Bar Chart</h2>
+        <div class="responsive-svg-container"></div>
     `,
     story: `
         <div class="story-header">
@@ -109,7 +112,7 @@ const pages = {
 
         <hr>
 
-    <div class="story-header">
+        <div class="story-header">
             <h1>Size vs. Reality</h1>
         </div>
 
@@ -162,7 +165,6 @@ const storyContent = [ // story content (image + text per step)
 
 window.changeStoryStep = function() { // change story when clicked
     currentStep = (currentStep + 1) % storyContent.length;
-    // update content
     document.getElementById("storyImage").src = storyContent[currentStep].image;
     document.getElementById("storyCaption").innerText = storyContent[currentStep].caption;
     document.getElementById("storyInfoTitle").innerText = storyContent[currentStep].title;
@@ -185,7 +187,7 @@ const links = document.querySelectorAll('nav ul li a');
 // switch page content
 function setPage(page) {
     contentDiv.innerHTML = pages[page];
-    links.forEach(link => { // highlight active link
+    links.forEach(link => {
         link.classList.remove('active');
         if(link.getAttribute('data-page') === page) link.classList.add('active');
     });
@@ -193,6 +195,7 @@ function setPage(page) {
 }
 
 setPage('home');
+
 links.forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -234,7 +237,7 @@ window.initScatterPlot = function() {
     svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
     svg.append("g").call(d3.axisLeft(y));
 
-    // points so its Hidden initially
+     // points so its Hidden initially
     const dots = svg.selectAll("dot")
         .data(tvData)
         .enter()
@@ -261,7 +264,7 @@ window.initScatterPlot = function() {
         .attr("d", line);
 
     window.revealPlot = () => {
-        // animate the dots
+         // animate the dots
         d3.selectAll("circle")
             .transition()
             .delay((d, i) => i * 150) 
@@ -289,7 +292,18 @@ window.initScatterPlot = function() {
 const originalSetPage = setPage;
 setPage = function(page) {
     originalSetPage(page);
+    
     if (page === 'story') {
-        setTimeout(initScatterPlot, 100);
+        setTimeout(initScatterPlot, 50);
+    }
+    
+    if (page === 'tv') {
+        setTimeout(() => {
+            if (typeof initEnergyBarChart === 'function') {
+                initEnergyBarChart();
+            } else {
+                console.error("D3 Error: initEnergyBarChart function was not found in d3-script.js");
+            }
+        }, 50);
     }
 };

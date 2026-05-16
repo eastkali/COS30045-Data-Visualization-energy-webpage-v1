@@ -12,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-y: scroll; 
 }
 
 header {
@@ -242,4 +243,17 @@ footer {
 #scatter-plot-container svg {
     background: #fff;
     border-radius: 8px;
+}
+
+.responsive-svg-container {
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+.responsive-svg-container svg {
+    width: 100%;
+    height: auto;
+    display: block;
 }
