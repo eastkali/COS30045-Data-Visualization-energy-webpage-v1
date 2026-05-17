@@ -29,8 +29,24 @@ window.initEnergyBarChart = function() {
 };
 
 const createBarChart = (data, container) => {
+    const svgWidth = 500;
+    const svgHeight = 1600;
+    const leftMargin = 80;
+    const rightMargin = 20;
+    const topMargin = 70;
+    const bottomMargin = 20;
+
+    const xScale = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.count)])
+        .range([0, svgWidth - leftMargin - rightMargin]);
+
+    const yScale = d3.scaleBand()
+        .domain(data.map(d => d.brand))
+        .range([topMargin, svgHeight - bottomMargin])
+        .paddingInner(0.2);
+
     const svg = container.append("svg")
-        .attr("viewBox", "0 0 1200 800")
+        .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`)
         .style("border", "2px solid #222222")
         .style("background-color", "#ffffff")
         .style("margin-top", "15px");
@@ -45,18 +61,13 @@ const createBarChart = (data, container) => {
     */
 
     svg.append("text")
-        .attr("x", 600)
+        .attr("x", svgWidth / 2)
         .attr("y", 35)
         .attr("text-anchor", "middle")
         .style("fill", "#2e7d32")
         .style("font-weight", "bold")
         .style("font-size", "1.2rem")
         .text(`Extracted ${data.length} chart rows.`);
-
-    const barHeight = 25;
-    const barGap = 8;
-    const leftMargin = 50;
-    const topMargin = 70;
 
     svg.selectAll(".brand-bar")
         .data(data)
@@ -66,11 +77,9 @@ const createBarChart = (data, container) => {
             return `bar bar-${Math.round(d.count)}`;
         })
         .attr("x", leftMargin)
-        .attr("y", (d, i) => {
-            return topMargin + (i * (barHeight + barGap));
-        })
-        .attr("width", d => d.count * 4)
-        .attr("height", barHeight)
+        .attr("y", d => yScale(d.brand))
+        .attr("width", d => xScale(d.count))
+        .attr("height", yScale.bandwidth())
         .attr("fill", "#ff6600")
         .attr("stroke", "#cc5200")
         .attr("stroke-width", "1px");
