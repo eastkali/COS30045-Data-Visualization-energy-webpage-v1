@@ -1,33 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appliance Energy Website</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Energy Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
     <header>
-        <img src="images/PowerIcon.png" id="logo" alt="Power Logo" onclick="setPage('home')" style="cursor: pointer;">
-        <nav>
-            <ul>
-                <li><a href="#" data-page="home" class="active">Home</a></li>
-                <li><a href="#" data-page="tv">Televisions</a></li>
-                <li><a href="#" data-page="story">Data Story</a></li>
-                <li><a href="#" data-page="about">About Us</a></li>
-            </ul>
-        </nav>
+        <h1>Appliance Energy & Market Analysis</h1>
     </header>
 
-    <main id="content">
-        </main>
+    <main class="dashboard-grid">
+        <section class="chart-card">
+            <h2>Television Energy Consumption vs. Star Ratings</h2>
+            <p class="chart-desc">Investigating individual appliance efficiencies to spot trends across model tiers.</p>
+            <div id="scatter-plot-container" class="responsive-container"></div>
+        </section>
+
+        <section class="chart-card">
+            <h2>Display Tech Power Breakdown</h2>
+            <p class="chart-desc">Proportional mean annual energy consumption grouped by panel construction category.</p>
+            <div id="donut-chart-container" class="responsive-container"></div>
+        </section>
+
+        <section class="chart-card">
+            <h2>Mean Energy Demands: 55-Inch Models</h2>
+            <p class="chart-desc">Isolating form factors to establish a controlled comparison across LCD, LED, and OLED variants.</p>
+            <div id="bar-chart-container" class="responsive-container"></div>
+        </section>
+
+        <section class="chart-card">
+            <h2>Historical Regional Spot Electricity Prices</h2>
+            <p class="chart-desc">Tracking market fluctuations from 1998 through 2024 across Australian regional grids ($ per MWh).</p>
+            <div id="line-chart-container" class="responsive-container"></div>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Camille Magpayo | Assisted by GenAI</p>
+        <p>&copy; 2026 Camille Magpayo | Advanced Data Visualisation</p>
     </footer>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script> 
-    <script src="js/d3script.js"></script> 
-    <script src="js/scripts.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="js/scatterplot.js"></script>
+    <script src="js/donutchart.js"></script>
+    <script src="js/barchart55.js"></script>
+    <script src="js/linechart.js"></script>
 </body>
 </html>
