@@ -10,8 +10,10 @@ window.initEnergyBarChart = function() {
             count: +d['Mean(Avg_mode_power)']
         };
     }).then(data => {
+        // Filter out any rows with missing or zero values
         const cleanedData = data.filter(d => d.brand && !isNaN(d.count) && d.count > 0);
 
+        //browser console tab array objects
         console.log("==== EXERCISE 4.4 KNIME SUMMARY LOADING LOGS ====");
         console.log("JavaScript Objects Array:", cleanedData);
         console.log("Total Number of Summary Records:", cleanedData.length);
@@ -31,8 +33,8 @@ window.initEnergyBarChart = function() {
 const createBarChart = (data, container) => {
     const svgWidth = 500;
     const svgHeight = 1600;
-    const leftMargin = 80;
-    const rightMargin = 20;
+    const leftMargin = 110;  
+    const rightMargin = 45;
     const topMargin = 70;
     const bottomMargin = 20;
 
@@ -69,18 +71,56 @@ const createBarChart = (data, container) => {
         .style("font-size", "1.2rem")
         .text(`Extracted ${data.length} chart rows.`);
 
-    svg.selectAll(".brand-bar")
+    //Add an object to hold groups
+    const barAndLabel = svg.selectAll("g.bar-row")
         .data(data)
-        .join("rect")
+        .join("g")
+        .attr("class", "bar-row")
+        .attr("transform", d => `translate(0, ${yScale(d.brand)})`);
+
+    barAndLabel.append("rect")
         .attr("class", d => {
-            console.log("Binding DOM element for row:", d);
+            console.log("Binding DOM group element for row:", d);
             return `bar bar-${Math.round(d.count)}`;
         })
         .attr("x", leftMargin)
-        .attr("y", d => yScale(d.brand))
+        .attr("y", 0)
         .attr("width", d => xScale(d.count))
         .attr("height", yScale.bandwidth())
         .attr("fill", "#ff6600")
         .attr("stroke", "#cc5200")
         .attr("stroke-width", "1px");
+
+    barAndLabel.append("text")
+        .text(d => d.brand)
+        .attr("x", leftMargin - 8)
+        .attr("y", yScale.bandwidth() / 2 + 4)
+        .attr("text-anchor", "end")
+        .style("font-family", "sans-serif")
+        .style("font-size", "11px")
+        .style("fill", "#333333");
+
+    barAndLabel.append("text")
+        .text(d => Math.round(d.count))
+        .attr("x", d => leftMargin + xScale(d.count) + 6)
+        .attr("y", yScale.bandwidth() / 2 + 4)
+        .attr("text-anchor", "start")
+        .style("font-family", "sans-serif")
+        .style("font-size", "10px")
+        .style("font-weight", "bold")
+        .style("fill", "#555555");
+
+    /*
+    svg.selectAll(".brand-bar")
+        .data(data)
+        .join("rect")
+        .attr("class", d => { return `bar bar-${Math.round(d.count)}`; })
+        .attr("x", leftMargin) 
+        .attr("y", d => yScale(d.brand)) 
+        .attr("width", d => xScale(d.count)) 
+        .attr("height", yScale.bandwidth()) 
+        .attr("fill", "#ff6600")
+        .attr("stroke", "#cc5200")
+        .attr("stroke-width", "1px");
+    */
 };
