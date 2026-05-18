@@ -144,7 +144,7 @@ const pages = {
     `,
     d3charts: `
         <h1>Multi-Chart Dashboard</h1>
-        <p>This section presents different D3 charts based on TV energy data and historical electricity prices, helping compare usage patterns and trends.</p>
+          <p>This section presents different D3 charts based on TV energy data and historical electricity prices, helping compare usage patterns and trends.</p>
         
         <hr style="border: 0; height: 1px; background: #ddd; margin: 25px 0;">
 
@@ -156,23 +156,33 @@ const pages = {
                 <div id="ex5-scatterplot" style="width: 100%; height: 400px;"></div>
             </div>
 
-            <div class="dashboard-row" style="display: flex; flex-wrap: wrap; gap: 30px; width: 100%;">
+            <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box;">
+                <h3 style="color: #ff6600; margin-top:0;">Energy Consumption vs Star Rating</h3>
+                <p style="font-size:0.9rem; color:#555;">Showing how total energy consumption is distributed across different screen technologies.</p>
                 
-                <div class="dashboard-card" style="flex: 1; min-width: 320px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); box-sizing:border-box;">
-                    <h3 style="color: #ff6600; margin-top:0;">Display Tech Power Breakdown</h3>
-                    <p style="font-size:0.9rem; color:#555;">Showing how energy usage is split across different display technologies (LED, OLED, LCD).</p>
-                    <div id="ex5-donutchart" style="width: 100%; height: 360px;"></div>
-                </div>
-
-                <div class="dashboard-card" style="flex: 1; min-width: 320px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); box-sizing:border-box;">
-                    <h3 style="color: #ff6600; margin-top:0;">Mean Energy Demands: 55-Inch Models</h3>
-                    <p style="font-size:0.9rem; color:#555;">Comparing average energy consumption across different display types for 55-inch TVs only.</p>
-                    <div id="ex5-barchart55" style="width: 100%; height: 360px;"></div>
+                <div id="ex5-donutchart" style="width: 100%; height: 360px;"></div>
+                
+                <div class="donut-legend-container" style="display: flex; justify-content: center; gap: 25px; margin-top: 15px; font-family: sans-serif; font-size: 13px; font-weight: bold; color: #444;">
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 14px; height: 14px; background-color: #ffa366; border-radius: 3px;"></span> LCD
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 14px; height: 14px; background-color: #ff6600; border-radius: 3px;"></span> LED
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 14px; height: 14px; background-color: #b34700; border-radius: 3px;"></span> OLED
+                    </div>
                 </div>
             </div>
 
+            <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box;">
+                <h3 style="color: #ff6600; margin-top:0;">Bar Chart:Energy Use of 55-inch TVs by Screen Technology</h3>
+                <p style="font-size:0.9rem; color:#555;">Comparing energy usage across screen technologies for 55-inch TVs only to keep the comparison consistent.</p>
+                <div id="ex5-barchart55" style="width: 100%; height: 360px;"></div>
+            </div>
+
             <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box; margin-bottom: 20px;">
-                <h3 style="color: #ff6600; margin-top:0;">Historical Regional Spot Electricity Prices</h3>
+                <h3 style="color: #ff6600; margin-top:0;">Electricity Spot Prices (1998–2024)</h3>
                 <p style="font-size:0.9rem; color:#555;">Tracking how electricity prices have changed across Australian regions from 1998 to 2024.</p>
                 <div id="ex5-linechart" style="width: 100%; height: 420px;"></div>
             </div>

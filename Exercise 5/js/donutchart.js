@@ -18,16 +18,23 @@ window.initExercise5DonutChart = function() {
         .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
     d3.csv("data/Ex5_TV_energy_Allsizes_byScreenType.csv").then(data => {
-        data.forEach(d => { // convert values to correct data types
+        data.forEach(d => { 
             d.value = +d["Mean(Labelled energy consumption (kWh/year))"];
             d.type = d.Screen_Tech;
         });
 
-        const color = d3.scaleOrdinal() // define color scale for each screen type
+        // calculate the total sum of all values
+        const totalEnergySum = d3.sum(data, d => d.value);
+
+        const color = d3.scaleOrdinal() 
             .domain(data.map(d => d.type))
             .range(["#ffa366", "#ff6600", "#b34700"]);
+
         const pie = d3.pie().value(d => d.value).sort(null);
+    
         const arc = d3.arc().innerRadius(radius * 0.52).outerRadius(radius);
+
+        const labelArc = d3.arc().innerRadius(radius * 0.74).outerRadius(radius * 0.74);
 
         const arcs = svg.selectAll(".arc")
             .data(pie(data))
@@ -41,12 +48,20 @@ window.initExercise5DonutChart = function() {
             .attr("stroke", "#ffffff")
             .style("stroke-width", "2px");
 
+        // append the computed percentage texts inside the slices
         arcs.append("text")
-            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .attr("transform", d => `translate(${labelArc.centroid(d)})`)
             .attr("text-anchor", "middle")
-            .style("font-size", "11px")
-            .style("fill", "#fff")
+            .text(d => {
+                const percentage = (d.data.value / totalEnergySum) * 100;
+                return `${percentage.toFixed(1)}%`;
+            })
+            .style("font-family", "sans-serif")
+            .style("font-size", "13px")
             .style("font-weight", "bold")
-            .text(d => d.data.type);
+            .style("fill", "#ffffff");
+
+    }).catch(error => {
+        console.error("D3 Error loading donut data:", error);
     });
 };
