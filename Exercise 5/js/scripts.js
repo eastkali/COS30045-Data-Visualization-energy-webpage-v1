@@ -176,7 +176,7 @@ const pages = {
             </div>
 
             <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box;">
-                <h3 style="color: #ff6600; margin-top:0;">Bar Chart:Energy Use of 55-inch TVs by Screen Technology</h3>
+                <h3 style="color: #ff6600; margin-top:0;">Energy Use of 55-inch TVs by Screen Technology</h3>
                 <p style="font-size:0.9rem; color:#555;">Comparing energy usage across screen technologies for 55-inch TVs only to keep the comparison consistent.</p>
                 <div id="ex5-barchart55" style="width: 100%; height: 360px;"></div>
             </div>
