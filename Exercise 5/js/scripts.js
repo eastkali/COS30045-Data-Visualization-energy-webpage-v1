@@ -50,6 +50,7 @@ const pages = {
         </div>
 
         <h2>TV Brand Energy Comparison Bar Chart</h2>
+        <p>Televisions are a staple of Australian entertainment. However, energy use varies significantly based on technology and size.</p>
         <div class="responsive-svg-container"></div>
     `,
     story: `
@@ -150,7 +151,7 @@ const pages = {
         <div class="exercise5-grid" style="display: flex; flex-direction: column; gap: 40px; width:100%;">
             
             <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box;">
-                <h3 style="color: #ff6600; margin-top:0;">Scatter Plot: Television Energy Consumption vs. Star Ratings</h3>
+                <h3 style="color: #ff6600; margin-top:0;">Television Energy Consumption vs. Star Ratings</h3>
                 <p style="font-size:0.9rem; color:#555;">Comparing TV energy consumption with star ratings to see if more efficient models actually use less power.</p>
                 <div id="ex5-scatterplot" style="width: 100%; height: 400px;"></div>
             </div>
