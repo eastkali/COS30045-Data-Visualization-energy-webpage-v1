@@ -144,7 +144,7 @@ const pages = {
     `,
     d3charts: `
         <h1>Multi-Chart Dashboard</h1>
-        <p>This page features a collection of different chart types created using D3, demonstrating specialized visual cuts across appliance energy metrics and historical electrical power spot marketplace shifts.</p>
+        <p>This section presents different D3 charts based on TV energy data and historical electricity prices, helping compare usage patterns and trends.</p>
         
         <hr style="border: 0; height: 1px; background: #ddd; margin: 25px 0;">
 
