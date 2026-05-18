@@ -71,8 +71,6 @@ const pages = {
             </div>
         </section>
 
-        <hr>
-
         <section class="story-section">
             <h2>Check Your Technology</h2>
             <p>Select your display type to see how it impacts your home's energy footprint:</p>
@@ -110,8 +108,6 @@ const pages = {
             </table>
         </section>
 
-        <hr>
-
         <div class="story-header">
             <h1>Size vs. Reality</h1>
         </div>
@@ -144,6 +140,42 @@ const pages = {
         <p>This website was developed as part of the <strong>COS30045 Data Visualisation</strong> unit. Our goal is to empower Australian consumers with clear, actionable data about their home energy footprint.</p>
         <h3>Our Mission</h3>
         <p>To provide a simple interface for understanding complex energy data, helping you lower your utility bills and your carbon footprint simultaneously.</p>
+    `,
+    d3charts: `
+        <h1>Multi-Chart Dashboard</h1>
+        <p>This page features a collection of different chart types created using D3, demonstrating specialized visual cuts across appliance energy metrics and historical electrical power spot marketplace shifts.</p>
+        
+        <hr style="border: 0; height: 1px; background: #ddd; margin: 25px 0;">
+
+        <div class="exercise5-grid" style="display: flex; flex-direction: column; gap: 40px; width:100%;">
+            
+            <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box;">
+                <h3 style="color: #ff6600; margin-top:0;">Scatter Plot: Television Energy Consumption vs. Star Ratings</h3>
+                <p style="font-size:0.9rem; color:#555;">Comparing TV energy consumption with star ratings to see if more efficient models actually use less power.</p>
+                <div id="ex5-scatterplot" style="width: 100%; height: 400px;"></div>
+            </div>
+
+            <div class="dashboard-row" style="display: flex; flex-wrap: wrap; gap: 30px; width: 100%;">
+                
+                <div class="dashboard-card" style="flex: 1; min-width: 320px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); box-sizing:border-box;">
+                    <h3 style="color: #ff6600; margin-top:0;">Display Tech Power Breakdown</h3>
+                    <p style="font-size:0.9rem; color:#555;">Showing how energy usage is split across different display technologies (LED, OLED, LCD).</p>
+                    <div id="ex5-donutchart" style="width: 100%; height: 360px;"></div>
+                </div>
+
+                <div class="dashboard-card" style="flex: 1; min-width: 320px; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); box-sizing:border-box;">
+                    <h3 style="color: #ff6600; margin-top:0;">Mean Energy Demands: 55-Inch Models</h3>
+                    <p style="font-size:0.9rem; color:#555;">Comparing average energy consumption across different display types for 55-inch TVs only.</p>
+                    <div id="ex5-barchart55" style="width: 100%; height: 360px;"></div>
+                </div>
+            </div>
+
+            <div class="dashboard-card" style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); width:100%; box-sizing:border-box; margin-bottom: 20px;">
+                <h3 style="color: #ff6600; margin-top:0;">Historical Regional Spot Electricity Prices</h3>
+                <p style="font-size:0.9rem; color:#555;">Tracking how electricity prices have changed across Australian regions from 1998 to 2024.</p>
+                <div id="ex5-linechart" style="width: 100%; height: 420px;"></div>
+            </div>
+        </div>
     `
 };
 
@@ -192,6 +224,30 @@ function setPage(page) {
         if(link.getAttribute('data-page') === page) link.classList.add('active');
     });
     window.scrollTo(0,0);
+
+    // router routing lifecycle controller
+    if (page === 'story') {
+        setTimeout(initScatterPlot, 50);
+    }
+    
+    if (page === 'tv') {
+        setTimeout(() => {
+            if (typeof initEnergyBarChart === 'function') {
+                initEnergyBarChart();
+            } else {
+                console.error("D3 Error: initEnergyBarChart function was not found in d3-script.js");
+            }
+        }, 50);
+    }
+
+    if (page === 'd3charts') {
+        setTimeout(() => {
+            if (typeof initExercise5ScatterPlot === 'function') initExercise5ScatterPlot();
+            if (typeof initExercise5DonutChart === 'function') initExercise5DonutChart();
+            if (typeof initExercise5BarChart55 === 'function') initExercise5BarChart55();
+            if (typeof initExercise5LineChart === 'function') initExercise5LineChart();
+        }, 50);
+    }
 }
 
 setPage('home');
@@ -237,7 +293,7 @@ window.initScatterPlot = function() {
     svg.append("g").attr("transform", `translate(0,${height})`).call(d3.axisBottom(x));
     svg.append("g").call(d3.axisLeft(y));
 
-     // points so its Hidden initially
+    // points so its Hidden initially
     const dots = svg.selectAll("dot")
         .data(tvData)
         .enter()
@@ -264,7 +320,7 @@ window.initScatterPlot = function() {
         .attr("d", line);
 
     window.revealPlot = () => {
-         // animate the dots
+        // animate the dots
         d3.selectAll("circle")
             .transition()
             .delay((d, i) => i * 150) 
@@ -288,22 +344,17 @@ window.initScatterPlot = function() {
     };
 };
 
-// make sure that D3 runs when page is switched to story
-const originalSetPage = setPage;
-setPage = function(page) {
-    originalSetPage(page);
-    
-    if (page === 'story') {
-        setTimeout(initScatterPlot, 50);
-    }
-    
-    if (page === 'tv') {
-        setTimeout(() => {
-            if (typeof initEnergyBarChart === 'function') {
-                initEnergyBarChart();
-            } else {
-                console.error("D3 Error: initEnergyBarChart function was not found in d3-script.js");
+// window browser resizing
+let resizeTimeout;
+window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        const activeLink = document.querySelector("nav ul li a.active");
+        if (activeLink) {
+            const currentRoute = activeLink.getAttribute("data-page");
+            if (currentRoute === "d3charts" || currentRoute === "tv" || currentRoute === "story") {
+                setPage(currentRoute);
             }
-        }, 50);
-    }
-};
+        }
+    }, 150);
+});

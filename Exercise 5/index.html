@@ -1,47 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Energy Dashboard</title>
-    <link rel="stylesheet" href="css/styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appliance Energy Website</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Appliance Energy & Market Analysis</h1>
+        <img src="images/PowerIcon.png" id="logo" alt="Power Logo" onclick="setPage('home')" style="cursor: pointer;">
+        <nav>
+            <ul>
+                <li><a href="#" data-page="home" class="active">Home</a></li>
+                <li><a href="#" data-page="tv">Televisions</a></li>
+                <li><a href="#" data-page="story">Data Story</a></li>
+                <li><a href="#" data-page="d3charts">D3 Charts</a></li>
+                <li><a href="#" data-page="about">About Us</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main class="dashboard-grid">
-        <section class="chart-card">
-            <h2>Television Energy Consumption vs. Star Ratings</h2>
-            <p class="chart-desc">Comparing TV energy consumption with star ratings to see if more efficient models actually use less power.</p>
-            <div id="scatter-plot-container" class="responsive-container"></div>
-        </section>
-
-        <section class="chart-card">
-            <h2>Display Tech Power Breakdown</h2>
-            <p class="chart-desc">Showing how energy usage is split across different display technologies (LED, OLED, LCD).</p>
-            <div id="donut-chart-container" class="responsive-container"></div>
-        </section>
-
-        <section class="chart-card">
-            <h2>Mean Energy Demands: 55-Inch Models</h2>
-            <p class="chart-desc">Comparing average energy consumption across different display types for 55-inch TVs only.</p>
-            <div id="bar-chart-container" class="responsive-container"></div>
-        </section>
-
-        <section class="chart-card">
-            <h2>Historical Regional Spot Electricity Prices</h2>
-            <p class="chart-desc">Tracking how electricity prices have changed across Australian regions from 1998 to 2024.</p>
-            <div id="line-chart-container" class="responsive-container"></div>
-        </section>
+    <main id="content">
     </main>
 
     <footer>
         <p>&copy; 2026 Camille Magpayo | Assisted by GenAI</p>
     </footer>
 
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script> 
+    <script src="js/d3script.js"></script>
+    <script src="js/scripts.js"></script>
     <script src="js/scatterplot.js"></script>
     <script src="js/donutchart.js"></script>
     <script src="js/barchart55.js"></script>
