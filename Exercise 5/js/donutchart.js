@@ -1,45 +1,53 @@
-d3.csv("data/Ex5_TV_energy_Allsizes_byScreenType.csv").then(data => {
-    const valueKey = "Mean(Labelled energy consumption (kWh/year))";
-    data.forEach(d => d.value = +d[valueKey]);
+window.initExercise5DonutChart = function() {
+    const containerId = "#ex5-donutchart";
+    const containerNode = d3.select(containerId).node();
+    if (!containerNode) return;
 
-    const container = d3.select("#donut-chart-container");
-    const width = 400, height = 350, radius = Math.min(width, height) / 2 - 20;
+    d3.select(containerId).selectAll("*").remove();
 
-    const svg = container.append("svg")
-        .attr("viewBox", `0 0 400 350`)
+    const width = containerNode.getBoundingClientRect().width || 400;
+    const height = 360; 
+    const radius = Math.min(width, height) / 2 - 40;
+
+    const svg = d3.select(containerId)
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${width} ${height}`)
         .append("g")
-        .attr("transform", `translate(${width / 2},${height / 2})`);
+        .attr("transform", `translate(${width / 2}, ${height / 2})`);
 
-    const color = d3.scaleOrdinal()
-        .domain(data.map(d => d.Screen_Tech))
-        .range(["#ff6600", "#2e7d32", "#1565c0"]);
+    d3.csv("data/Ex5_TV_energy_Allsizes_byScreenType.csv").then(data => {
+        data.forEach(d => { // convert values to correct data types
+            d.value = +d["Mean(Labelled energy consumption (kWh/year))"];
+            d.type = d.Screen_Tech;
+        });
 
-    const pie = d3.pie().value(d => d.value);
-    
-    const arc = d3.arc().innerRadius(radius * 0.45).outerRadius(radius);
+        const color = d3.scaleOrdinal() // define color scale for each screen type
+            .domain(data.map(d => d.type))
+            .range(["#ffa366", "#ff6600", "#b34700"]);
 
-    svg.selectAll("path")
-        .data(pie(data))
-        .enter()
-        .append("path")
-        .attr("d", arc)
-        .attr("fill", d => color(d.data.Screen_Tech))
-        .attr("stroke", "#ffffff")
-        .style("stroke-width", "2px");
+        const pie = d3.pie().value(d => d.value).sort(null);
+        const arc = d3.arc().innerRadius(radius * 0.52).outerRadius(radius);
 
-    // add text labels in the slices
-    svg.selectAll(".arc-text")
-        .data(pie(data))
-        .enter()
-        .append("text")
-        .attr("transform", d => `translate(${arc.centroid(d)})`)
-        // centers the text horizontally and vertically on that point
-        .attr("text-anchor", "middle")
-        .attr("dominant-baseline", "middle")
-        .text(d => d.data.Screen_Tech)
-        .style("fill", "#ffffff")
-        .style("font-family", "sans-serif")
-        .style("font-size", "14px")
-        .style("font-weight", "bold")
-        .style("pointer-events", "none"); // prevents text from blocking hover transitions
-});
+        const arcs = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter()
+            .append("g")
+            .attr("class", "arc");
+
+        arcs.append("path")
+            .attr("d", arc)
+            .attr("fill", d => color(d.data.type))
+            .attr("stroke", "#ffffff")
+            .style("stroke-width", "2px");
+
+        arcs.append("text")
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .attr("text-anchor", "middle")
+            .style("font-size", "11px")
+            .style("fill", "#fff")
+            .style("font-weight", "bold")
+            .text(d => d.data.type);
+    });
+};
