@@ -7,7 +7,7 @@ window.initExercise5BarChart55 = function() {
 
     const width = containerNode.getBoundingClientRect().width || 400;
     const height = 360; 
-    const margin = { top: 25, right: 20, bottom: 40, left: 60 };
+    const margin = { top: 40, right: 20, bottom: 40, left: 60 };
 
     const svg = d3.select(containerId)
         .append("svg")
@@ -21,6 +21,9 @@ window.initExercise5BarChart55 = function() {
             d.value = +d["Mean(Labelled energy consumption (kWh/year))"];
             d.type = d.Screen_Tech;
         });
+
+        // track the lowest value
+        const minEnergyValue = d3.min(data, d => d.value);
 
         const xScale = d3.scaleBand()
             .domain(data.map(d => d.type))
@@ -39,16 +42,33 @@ window.initExercise5BarChart55 = function() {
             .attr("transform", `translate(${margin.left}, 0)`)
             .call(d3.axisLeft(yScale));
 
-        svg.selectAll(".bar")
+        const barGroups = svg.selectAll(".bar-group")
             .data(data)
             .enter()
-            .append("rect")
+            .append("g")
+            .attr("class", "bar-group");
+
+        // render Bars with color
+        barGroups.append("rect")
             .attr("x", d => xScale(d.type))
             .attr("y", d => yScale(d.value))
             .attr("width", xScale.bandwidth())
             .attr("height", d => height - margin.bottom - yScale(d.value))
-            .attr("fill", "#ff6600")
-            .attr("stroke", "#cc5200")
-            .attr("stroke-width", "1px");
+            .attr("fill", d => d.value === minEnergyValue ? "#ff6600" : "#d1d5db") // Winner is Orange, others are Gray
+            .attr("rx", 4);
+
+        // render value annotations
+        barGroups.append("text")
+            .text(d => `${Math.round(d.value)} kWh`)
+            .attr("x", d => xScale(d.type) + xScale.bandwidth() / 2)
+            .attr("y", d => yScale(d.value) - 8)
+            .attr("text-anchor", "middle")
+            .style("font-family", "'Segoe UI', sans-serif")
+            .style("font-size", "12px")
+            .style("font-weight", d => d.value === minEnergyValue ? "bold" : "normal")
+            .style("fill", d => d.value === minEnergyValue ? "#ff6600" : "#4b5563");
+
+    }).catch(error => {
+        console.error("Error reading Exercise 5 CSV:", error);
     });
 };
