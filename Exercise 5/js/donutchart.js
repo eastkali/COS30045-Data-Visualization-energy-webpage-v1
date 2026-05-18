@@ -26,7 +26,6 @@ window.initExercise5DonutChart = function() {
         const color = d3.scaleOrdinal() // define color scale for each screen type
             .domain(data.map(d => d.type))
             .range(["#ffa366", "#ff6600", "#b34700"]);
-
         const pie = d3.pie().value(d => d.value).sort(null);
         const arc = d3.arc().innerRadius(radius * 0.52).outerRadius(radius);
 
