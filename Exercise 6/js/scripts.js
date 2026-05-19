@@ -187,6 +187,16 @@ const pages = {
                 <div id="ex5-linechart" style="width: 100%; height: 420px;"></div>
             </div>
         </div>
+    `,
+    ex6: `
+        <h1>Interactive Histogram</h1>
+        <p class="lead-text">Explore the energy consumption of LCD, LED, and OLED TVs from the dataset. Use the filters below to isolate different screen technologies.</p>
+        
+        <div id="filters" class="filters-container"></div>
+        
+        <div class="visualisation-container">
+            <div class="responsive-svg-container" id="ex6-histogram-container" style="width: 100%; height: 450px;"></div>
+        </div>
     `
 };
 
@@ -259,6 +269,12 @@ function setPage(page) {
             if (typeof initExercise5LineChart === 'function') initExercise5LineChart();
         }, 50);
     }
+
+    if (page === 'ex6') {
+        setTimeout(() => {
+            if (typeof initEx6Histogram === 'function') initEx6Histogram();
+        }, 50);
+    }
 }
 
 setPage('home');
@@ -280,7 +296,6 @@ const tvData = [
     { size: 65, power: 180, note: "Going big: Power draw begins to climb rapidly." },
     { size: 75, power: 240, note: "Home Cinema: Significant energy draw." },
     { size: 85, power: 380, note: "The Extreme: Consumes as much as a small fridge." }
-    // D3 will animate these in sequence
 ];
 
 window.initScatterPlot = function() {
@@ -363,7 +378,7 @@ window.addEventListener("resize", () => {
         const activeLink = document.querySelector("nav ul li a.active");
         if (activeLink) {
             const currentRoute = activeLink.getAttribute("data-page");
-            if (currentRoute === "d3charts" || currentRoute === "tv" || currentRoute === "story") {
+            if (currentRoute === "d3charts" || currentRoute === "tv" || currentRoute === "story" || currentRoute === "ex6") {
                 setPage(currentRoute);
             }
         }
