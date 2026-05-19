@@ -1,0 +1,13 @@
+.filters-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn.active {
+    background: #222 !important;
+    color: #ffffff !important;
+    transform: scale(1.05);
+}
