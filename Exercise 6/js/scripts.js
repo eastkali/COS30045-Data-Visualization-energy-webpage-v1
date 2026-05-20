@@ -189,13 +189,21 @@ const pages = {
         </div>
     `,
     ex6: `
-        <h1>Interactive Histogram</h1>
+        <h1>Interactive Histogram: TV Energy Consumption by Screen Technology</h1>
         <p class="lead-text">Explore the energy consumption of LCD, LED, and OLED TVs from the dataset. Use the filters below to isolate different screen technologies.</p>
         
         <div id="filters" class="filters-container"></div>
         
         <div class="visualisation-container">
             <div class="responsive-svg-container" id="ex6-histogram-container" style="width: 100%; height: 450px;"></div>
+        </div>
+
+        <hr style="border: 0; height: 1px; background: #ddd; margin: 40px 0;">
+        
+        <h2>Interactive Scatterplot: Energy vs Star Rating</h2>
+        <p class="lead-text">Hover over the points to see the screen size tooltips.</p>
+        <div class="visualisation-container">
+            <div class="responsive-svg-container" id="ex6-scatterplot-container" style="width: 100%; height: 450px;"></div>
         </div>
     `
 };
@@ -273,6 +281,7 @@ function setPage(page) {
     if (page === 'ex6') {
         setTimeout(() => {
             if (typeof initEx6Histogram === 'function') initEx6Histogram();
+            if (typeof initEx6Scatterplot === 'function') initEx6Scatterplot(); // Added scatterplot initialization
         }, 50);
     }
 }
