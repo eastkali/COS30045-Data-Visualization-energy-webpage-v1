@@ -19,7 +19,7 @@ window.drawHistogram = function(data, container) {
     const binGenerator = d3.bin()
         .value(d => d.energyConsumption)
         .domain(xScale.domain())
-        .thresholds(40); 
+        .thresholds(9);
 
     const bins = binGenerator(data);
 
@@ -28,7 +28,9 @@ window.drawHistogram = function(data, container) {
         .range([boundedHeight, 0])
         .nice();
 
-    const binsGroup = bounds.append("g").attr("class", "bins");
+    const binsGroup = bounds.append("g")
+        .attr("class", "bins")
+        .attr("shape-rendering", "crispEdges"); 
 
     binsGroup.selectAll("rect")
         .data(bins)
