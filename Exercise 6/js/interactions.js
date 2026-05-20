@@ -46,3 +46,61 @@ function updateHistogram(filterId, fullData, container) {
         .attr("y", d => config.yScale(d.length))
         .attr("height", d => config.boundedHeight - config.yScale(d.length));
 }
+
+//tooltip generation
+window.createTooltip = function() {
+    // append a new tool tip group element to the scatterplots innerChartS
+    const tooltip = innerChartS.append("g")
+        .attr("class", "scatterplot-tooltip")
+        .style("opacity", 0) // Hidden by default using style
+        .style("pointer-events", "none");
+
+    tooltip.append("rect")
+        .attr("width", tooltipDimensions.width)
+        .attr("height", tooltipDimensions.height)
+        .attr("rx", 5)
+        .attr("ry", 5)
+        .attr("fill", ex6Colors.barFill)
+        .attr("opacity", 0.85);
+
+    tooltip.append("text")
+        .attr("x", tooltipDimensions.width / 2)
+        .attr("y", tooltipDimensions.height / 2)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "middle")
+        .attr("fill", ex6Colors.bg)
+        .style("font-size", "12px")
+        .style("font-family", "sans-serif");
+};
+
+window.handleMouseEvents = function() {
+    // append structural mouse listener responses
+    innerChartS.selectAll("circle")
+        .on("mouseenter", function(e, d) {
+            console.log("mouseenter event triggered:", e);
+            console.log("data bound to circle element:", d);
+
+            const circle = d3.select(this);
+            const cx = parseFloat(circle.attr("cx"));
+            const cy = parseFloat(circle.attr("cy"));
+
+            const tooltip = innerChartS.select(".scatterplot-tooltip");
+            
+            tooltip.select("text")
+                .text(`Size: ${d.screenSize} inches`);
+
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", 1)
+                .attr("transform", `translate(${cx - tooltipDimensions.width / 2}, ${cy - tooltipDimensions.height - 10})`);
+        })
+        .on("mouseleave", function(e, d) {
+            console.log("mouseleave event triggered:", e);
+
+            innerChartS.select(".scatterplot-tooltip")
+                .transition()
+                .duration(200)
+                .style("opacity", 0)
+                .attr("transform", "translate(-9999, -9999)");
+        });
+};

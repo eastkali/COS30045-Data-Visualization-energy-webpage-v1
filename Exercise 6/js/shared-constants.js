@@ -16,3 +16,17 @@ const filters_screen = [
     { id: "LED", label: "LED", isActive: false },
     { id: "OLED", label: "OLED", isActive: false }
 ];
+
+// shared variables and constants for the scatterplot
+let innerChartS;
+let xScaleS;
+let yScaleS;
+
+const tooltipDimensions = {
+    width: 140,
+    height: 45
+};
+
+const colorScale = d3.scaleOrdinal()
+    .domain(["LCD", "LED", "OLED"])
+    .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
