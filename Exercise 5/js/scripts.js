@@ -49,7 +49,7 @@ const pages = {
             <strong>Pro Tip:</strong> Look for the <em>Energy Rating Label</em>. Every extra star can save you around 20% in running costs!
         </div>
 
-        <h2>TV Brand Energy Comparison Bar Chart</h2>
+        <h2>Exercise 4.6: TV Brand Energy Comparison Bar Chart</h2>
         <p>Televisions are a staple of Australian entertainment. However, energy use varies significantly based on technology and size.</p>
         <div class="responsive-svg-container"></div>
     `,

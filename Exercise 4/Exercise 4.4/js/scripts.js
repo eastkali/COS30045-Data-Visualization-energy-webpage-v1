@@ -49,7 +49,7 @@ const pages = {
             <strong>Pro Tip:</strong> Look for the <em>Energy Rating Label</em>. Every extra star can save you around 20% in running costs!
         </div>
 
-        <h2>D3 Interactive Bar Chart</h2>
+        <h2>Exercise 4.4: TV Brand Energy Comparison Bar Chart</h2>
         <div class="responsive-svg-container"></div>
     `,
     story: `
